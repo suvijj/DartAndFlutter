@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './question.dart';
+import './quiz.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,34 +14,62 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-var questionIndex = 0;
+static const questions = [
+      {
+        'questionText': 'Do you like hedgehogs?', 
+        'answers': ['Yes', ' A bit', 'No'],
+      },
+      {
+        'questionText': 'Do you eat meat?', 
+        'answers': ['I love meat', ' Sometimes', 'No'],
+      },
+      {
+        'questionText': 'Are you afraid of bugs?',
+        'answers': ['YES!', 'It depends', 'Not at all'],
+      },
+      {
+        'questionText': 'Are you a early bird?',
+        'answers': ['I love waking up', 'Sometimes', 'Zzzz what?'],
+      },
+];
 
-void answerQuestion() {
-  setState(() {
-      questionIndex = questionIndex + 1;
-  });
+var _questionIndex = 0;
 
+
+
+void _answerQuestion() {
+  if(_questionIndex < questions.length) { 
+    setState(() {
+    _questionIndex = _questionIndex + 1;
+  });}
+ 
   print('Answer chosen');
 }
 
-  @override
-  Widget build(BuildContext context) {
-    var questions = [
-      'Do you like hedgehogs?',
-      'Do you eat meat?',
-    ];
-    return MaterialApp(home: Scaffold(
-      appBar: AppBar(title: Text('Quiz App'),), //Appbar
-      body: Column(
-        children: [
-          Question(
-            questions[questionIndex]
-          ),
-          ElevatedButton(child: Text('Yes'), onPressed: answerQuestion,),
-          ElevatedButton(child: Text('A bit'), onPressed: answerQuestion,),
-          ElevatedButton(child: Text('No'), onPressed: answerQuestion,),
-        ]),
+Widget build(BuildContext context) {
+    // var dummy = const ['Hello'];
+    // dummy.add('Max');
+    // print(dummy);
+    // dummy = [];
+    // questions = []; // does not work if questions is a const
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('My First App'),
+        ),
+        body: _questionIndex < questions.length
+            ? Column(
+                children: [
+                Question(questions[_questionIndex]['questionText']),
+                for (var e in questions[_questionIndex]['answers'])
+                 Answer(_answerQuestion, e),
+],
+              )
+            : Center(
+                child: Text('You did it!'),
+              ),
       ),
-      );
+    );
   }
 }
