@@ -1,49 +1,74 @@
 import 'package:flutter/material.dart';
-import './question.dart';
+import 'package:quiz_app/workouts.dart';
+import 'package:intl/intl.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter App',
+      home: MyHomePage(),
+    );
   }
 }
 
-class MyAppState extends State<MyApp> {
-var questionIndex = 0;
-
-void answerQuestion() {
-  setState(() {
-      questionIndex = questionIndex + 1;
-  });
-
-  print('Answer chosen');
-}
+class MyHomePage extends StatelessWidget {
+  final List<Workouts> workouts = [
+    Workouts(id: 'w1', title: '5k walk', timesLeft: 2, date: DateTime.now(),),
+    Workouts(id: '2', title: '10 pushups', timesLeft: 2, date: DateTime.now(),)
+  ];
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'How long you hope to do this programme for?', //Vastausvaihtoehdot days
-      'When do you hope to start the programme?', //Kalenterinäkymä?
-      'What is the name of your programme?', //Lisää vapaa kirjoitus vaihtoehdoksi
-      'Does this look good?', //kalenterinäkymä harjoittelulle
-    ];
-    return MaterialApp(home: Scaffold(
-      appBar: AppBar(title: Text('Quiz App'),), //Appbar
-      body: Column(
-        children: [
-          Question(
-            questions[questionIndex]
-          ),
-          ElevatedButton(child: Text('Yes'), onPressed: answerQuestion,), //oletusvastausvaihtoehdot
-          ElevatedButton(child: Text('A bit'), onPressed: answerQuestion,),
-          ElevatedButton(child: Text('No'), onPressed: answerQuestion,),
-        ]),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter App'),
       ),
-      );
+      body: Column(
+        //mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+        Container( //<-- tämän ylle vielä yksi card tjsp. "pelillistetty hahmo", "pisteet" yms.
+          width: double.infinity,
+          child: Card(
+            child: Text('CHART'),
+            elevation: 5
+          ),
+        ),
+        Card(child: Column(
+          children: <Widget>[
+            TextField()
+          ],
+        ),),
+        Column(children: workouts.map((wo) {
+          return Card(
+            child: Row(
+              children: <Widget>[
+              Container(
+                margin: EdgeInsets.symmetric(
+                  vertical: 15, horizontal: 15
+                  ),
+                decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2)),
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  wo.timesLeft.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold,
+                  fontSize: 20)
+                  ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget> [
+                      Text(wo.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(DateFormat('dd/MM/yyyy').format(wo.date),
+                      style: TextStyle(color: Colors.grey))
+                  ],)
+            ],),);
+        }).toList(),),
+      ],
+      ),
+    );
   }
 }
