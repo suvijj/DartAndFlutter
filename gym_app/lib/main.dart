@@ -38,8 +38,16 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
         Card(child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            TextField()
+            TextField(
+              decoration: InputDecoration(labelText: 'Title'),
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Times Done'),
+            ),
+            TextButton(
+              onPressed: (){}, child: Text('Add Workout'))
           ],
         ),),
         Column(children: workouts.map((wo) {
