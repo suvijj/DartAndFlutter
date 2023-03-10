@@ -20,6 +20,8 @@ class MyHomePage extends StatelessWidget {
     Workouts(id: '2', title: '10 pushups', timesLeft: 2, date: DateTime.now(),)
   ];
 
+  String titleInput;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,9 +44,6 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Times Done'),
             ),
             TextButton(
               onPressed: (){}, child: Text('Add Workout'))
